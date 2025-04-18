@@ -39,6 +39,22 @@ To enable the QwicPay button on your WooCommerce store:
 
 ---
 
+## 🔗 Checkout Endpoints
+
+The following endpoints are appended to your store's page URLs to handle specific actions during the QwicPay Instant Checkout process. These endpoints must be unique and properly configured in WooCommerce:
+
+| Endpoint Purpose   | Endpoint Slug   |
+|--------------------|-----------------|
+| Pay                | `order-pay`     |
+| Order Received     | `order-received`|
+
+> ⚙️ **To set these endpoints in WooCommerce:**
+>
+> 1. Go to your WordPress Admin Dashboard.
+> 2. Navigate to **WooCommerce → Settings → Advanced → Checkout Endpoints**.
+> 3. Ensure the slugs `order-pay` and `order-received` are listed under the appropriate sections.
+
+
 ## ✅ Activation Instructions
 
 After adding the code to your site:
