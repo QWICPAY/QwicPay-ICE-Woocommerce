@@ -1,8 +1,8 @@
 <?php
 /**
  * Plugin Name: QwicPay Integration for WooCommerce
- * Description: Adds a QwicPay instant checkout button to cart/checkout pages, with configurable hook, merchant ID, stage and currency.
- * Version:     1.0.0
+ * Description: Adds a QwicPay instant checkout button to cart/checkout pages, with configurable hook, merchant ID, stage, currency and button style.
+ * Version:     1.0.1
  * Author:      Enrico Leigh
  * Text Domain: qwicpay
  * 
@@ -15,7 +15,6 @@
  * This code is provided solely for use in connection with the QwicPay Instant Checkout Ecosystem (ICE).
  */
 
-
 if ( ! defined( 'ABSPATH' ) ) {
     exit; // Exit if accessed directly
 }
@@ -26,7 +25,7 @@ class WC_QwicPay_Integration {
         add_filter( 'woocommerce_settings_tabs_array',   [ $this, 'add_settings_tab' ], 50 );
         add_action( 'woocommerce_settings_tabs_qwicpay', [ $this, 'settings_tab' ] );
         add_action( 'woocommerce_update_options_qwicpay', [ $this, 'update_settings' ] );
-        add_action( 'init', [ $this, 'register_button_hook' ] ); //Dynamically selected hook based on user input
+        add_action( 'init', [ $this, 'register_button_hook' ] ); // Dynamically selected hook based on user input
     }
 
     /**
@@ -108,6 +107,19 @@ class WC_QwicPay_Integration {
                 'default' => 'ZAR',
             ],
             [
+                'name'    => __( 'Button Style', 'qwicpay' ),
+                'desc'    => __( 'Select which QwicPay button image to use', 'qwicpay' ),
+                'id'      => 'qwicpay_button_style',
+                'type'    => 'select',
+                'options' => [
+                    'https://cdn.qwicpay.com/Buttons/QwicPay+Button+BlueBGWhiteText.svg'                    => __( 'Blue Round', 'qwicpay' ),
+                    'https://cdn.qwicpay.com/Buttons/QwicPay+Button+BlueBGWhiteText+(Squared).svg'           => __( 'Blue Square', 'qwicpay' ),
+                    'https://cdn.qwicpay.com/Buttons/QwicPay+Button+WhiteBGBlueText.svg'                    => __( 'White Round', 'qwicpay' ),
+                    'https://cdn.qwicpay.com/Buttons/QwicPay+Button+WhiteBGBlueText+(Squared).svg'           => __( 'White Square', 'qwicpay' ),
+                ],
+                'default' => 'https://cdn.qwicpay.com/Buttons/QwicPay+Button+BlueBGWhiteText.svg',
+            ],
+            [
                 'type' => 'sectionend',
                 'id'   => 'qwicpay_section_end',
             ],
@@ -129,9 +141,10 @@ class WC_QwicPay_Integration {
      */
     public function output_qwicpay_button() {
         // fetch settings
-        $merchant_id = sanitize_text_field( get_option( 'qwicpay_merchant_id', '' ) );
-        $stage       = get_option( 'qwicpay_stage', 'test' );
-        $currency    = get_option( 'qwicpay_currency', 'ZAR' );
+        $merchant_id   = sanitize_text_field( get_option( 'qwicpay_merchant_id', '' ) );
+        $stage         = get_option( 'qwicpay_stage', 'test' );
+        $currency      = get_option( 'qwicpay_currency', 'ZAR' );
+        $button_url    = esc_url( get_option( 'qwicpay_button_style' ) );
 
         if ( empty( $merchant_id ) ) {
             return; // nothing to do
@@ -171,10 +184,8 @@ class WC_QwicPay_Integration {
             'products'   => $products_json,
         ], 'https://ice.qwicpay.com/app/woo/checkout/' );
 
-        $button_url = 'https://cdn.qwicpay.com/Buttons/QwicPay+Button+BlueBGWhiteText.svg';
-
         echo '<a href="' . esc_url( $checkout_url ) . '" target="_blank" class="qwicpay-checkout-button">';
-        echo '<img src="' . esc_url( $button_url ) . '" alt="QwicPay Checkout Button">';
+        echo   '<img src="' . $button_url . '" alt="QwicPay Checkout Button">';
         echo '</a>';
     }
 }
