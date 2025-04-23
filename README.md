@@ -39,6 +39,13 @@ To enable the QwicPay button on your WooCommerce store:
 
 ---
 
+## **Permalinks:** 
+
+  WordPress permalinks must be set to a human-readable format.  
+  Go to `Settings > Permalinks` and choose any option **other than "Plain"**.  
+  The **"Day and name"** structure is a great default and works well with QwicPay.
+
+
 ## 🔗 Checkout Endpoints
 
 The following endpoints are appended to your store's page URLs to handle specific actions during the QwicPay Instant Checkout process. These endpoints must be unique and properly configured in WooCommerce:
