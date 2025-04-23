@@ -60,7 +60,7 @@ The following endpoints are appended to your store's page URLs to handle specifi
 After adding the code to your site:
 
 1. Visit `https://integrate.qwicpay.com/link`
-2. Enter your WooCommerce **store URL** (e.g., `https://demo.qwicpay.com`)
+2. Enter your WooCommerce **store URL** (e.g., `demo.qwicpay.com`)
 3. Approve the QwicPay integration request in your WooCommerce backend.
 
 Once approved, your store is fully linked with QwicPay Instant Checkout.
