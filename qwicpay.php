@@ -1,19 +1,34 @@
 <?php
 /**
  * Plugin Name: QwicPay Checkout
- * Description: Adds a QwicPay instant checkout button to cart/checkout pages, with configurable hook, merchant ID, stage, currency and button style.
- * Version:     1.2.12
- * Author:      QwicPay
- * Text Domain: qwicpay
+ * Plugin URI: https://www.qwicpay.com/
+ * Description: Adds a QwicPay instant checkout button to WooCommerce.
+ * Version: 1.2.12
+ * Author: QwicPay Pty Ltd
+ * License: GPLv2 or later
+ * License URI: https://www.gnu.org/licenses/gpl-2.0.html
+ * Text Domain: qwicpay-checkout
  * 
- * This code is the intellectual property of QwicPay Pty Ltd (Registration No. K2024202050).
- * All rights reserved.
- * 
- * Unauthorized copying, distribution, modification, or use of this code, in whole or in part,
- * without express written permission from QwicPay Pty Ltd is strictly prohibited.
- * 
- * This code is provided solely for use in connection with the QwicPay Instant Checkout Ecosystem (ICE).
  */
+
+
+/*
+ * Copyright (C) 2025 QwicPay Pty Ltd
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program. If not, see <https://www.gnu.org/licenses/>.
+ */
+
 
 if ( ! defined( 'ABSPATH' ) ) {
     exit; // Exit if accessed directly

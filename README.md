@@ -4,7 +4,7 @@
 
 This integration enables your WooCommerce store to offer **QwicPay Instant Checkout**, providing a faster, seamless payment experience directly from the cart page.
 
-> ⚠️ **IMPORTANT:** This code is the intellectual property of QwicPay Pty Ltd (Registration No. K2024202050). Unauthorized use or distribution is strictly prohibited.
+> ⚠️ **IMPORTANT:** You will need a QwicPay merchant account. You can sign up at [https://www.qwicpay.com](https://www.qwicpay.com).
 
 ---
 
@@ -51,18 +51,6 @@ The following endpoints are appended to your store's page URLs to handle specifi
 > 2. Navigate to **WooCommerce → Settings → Advanced → Checkout Endpoints**.
 > 3. Ensure the slugs `order-pay` and `order-received` are listed under the appropriate sections.
 
-
-## ✅ Activation Instructions
-
-After adding the code to your site:
-
-1. Visit `https://integrate.qwicpay.com/link`
-2. Enter your WooCommerce **store URL** (e.g., `demo.qwicpay.com`)
-3. Approve the QwicPay integration request in your WooCommerce backend.
-
-Once approved, your store is fully linked with QwicPay Instant Checkout.
-
----
 
 ## Usage
 
