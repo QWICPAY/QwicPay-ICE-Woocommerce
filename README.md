@@ -1,11 +1,10 @@
-# QwicPay-ICE-Woocommerce
-
+# QwicPay Checkout for WooCommerce
 
 ![QwicPay Logo](https://qwicpay.com/assets/QwicPayLogo.png)
 
 This integration enables your WooCommerce store to offer **QwicPay Instant Checkout**, providing a faster, seamless payment experience directly from the cart page.
 
-> ⚠️ **IMPORTANT:** This code is the intellectual property of QwicPay Pty Ltd (Registration No. K2024202050). Unauthorized use or distribution is strictly prohibited.
+> ⚠️ **IMPORTANT:** You will need a QwicPay merchant account. You can sign up at [https://www.qwicpay.com](https://www.qwicpay.com).
 
 ---
 
@@ -15,29 +14,20 @@ This integration enables your WooCommerce store to offer **QwicPay Instant Check
 - Redirects customers to QwicPay’s secure instant checkout.
 - Automatically passes cart contents, notes, promo codes, and currency.
 - Fully configurable and easy to install.
+- Direct Merchant portal access from WordPress
 
 ---
 
-## 📦 Installation
+## Installation
 
-To enable the QwicPay button on your WooCommerce store:
-
-1. **Access your WordPress Theme Editor:**
-   - Go to your WordPress dashboard.
-   - Navigate to: `Appearance > Theme File Editor`.
-
-2. **Paste the Code:**
-   - Locate and open the `functions.php` file in your active theme.
-   - Paste the contents of [`functions.php`](functions.php) from this repository at the bottom of your theme’s existing `functions.php` file via the WordPress Theme Editor.
-   - Update the configuration values as required (see below).
-
-3. **Configure the Code:**
-   - Replace the following within the `//START CONFIG` section:
-     - `merchantid` – Your assigned merchant ID from QwicPay.
-     - `stage` – Use `'test'` for testing or `'PROD'` for live production.
-     - Choose your preferred QwicPay button design by URL.
+1. Download the ZIP and upload via **Plugins → Add New → Upload Plugin**.  
+2. Activate the plugin in **Plugins → Installed Plugins**.  
+3. Go to **QwicPay → Settings** to enter your Merchant ID and other options.  
+4. Activate the plugin and insure staus becomes `Active`
 
 ---
+
+
 
 ## **Permalinks:** 
 
@@ -62,26 +52,18 @@ The following endpoints are appended to your store's page URLs to handle specifi
 > 3. Ensure the slugs `order-pay` and `order-received` are listed under the appropriate sections.
 
 
-## ✅ Activation Instructions
+## Usage
 
-After adding the code to your site:
+1. **Cart & Checkout**  
+   From WooCommerce **Settings → QwicPay Settings**, choose your “Hook Location.” The plugin will render a full-width (100%) button at that hook on cart and checkout pages.
 
-1. Visit `https://integrate.qwicpay.com/link`
-2. Enter your WooCommerce **store URL** (e.g., `demo.qwicpay.com`)
-3. Approve the QwicPay integration request in your WooCommerce backend.
+2. **Mini-cart Drawer**  
+   The plugin automatically injects a half-width (50%) button under the “View cart”/“Checkout” buttons in the WooCommerce mini-cart drawer.
 
-Once approved, your store is fully linked with QwicPay Instant Checkout.
+3. **Merchant Portal**  
+   In the WordPress admin sidebar, open **QwicPay → Merchant Access Portal** to view for payment dashboard
 
 ---
-
-## 🛠 Configuration Example
-
-```php
-$merchantid = 'YOUR_MERCHANT_ID';
-$stage = 'test'; // Use 'PROD' for production
-$button_url = 'https://cdn.qwicpay.com/Buttons/QwicPay+Button+BlueBGWhiteText.svg';
-```
-
 
 ---
 
@@ -106,6 +88,18 @@ Choose from 4 button styles hosted by QwicPay:
 `https://cdn.qwicpay.com/Buttons/QwicPay+Button+WhiteBGBlueText+(Squared).svg`
 ---
 
+
+## Plugin Options
+
+| Option                | Description                                           | Default                                    |
+| --------------------- | ----------------------------------------------------- | ------------------------------------------ |
+| Hook Location         | Where to display the button on cart/checkout pages    | `woocommerce_cart_totals_after_order_total` |
+| Merchant ID           | Your QwicPay merchant identifier                      | *(empty — must be set)*                    |
+| Stage                 | Test or Production environment                        | `test`                                     |
+| Currency              | Checkout currency                                     | `ZAR`                                      |
+| Button Style          | URL of the QwicPay button image                       | Blue round button SVG                      |
+
+
 ## 📄 License & Legal
 
 This code is the property of **QwicPay Pty Ltd**.  
@@ -122,10 +116,30 @@ If you have any questions or require assistance with integration:
 
 ---
 
-## 🔗 Code Snippet
+## Changelog
 
-Paste this snippet into your `functions.php` file.  
-👉 _The full QwicPay integration code is located at the top of this documentation._
+### 1.2.12
+- Added full/half-width rendering via separate callbacks.
+- Refactored shared renderer for button HTML.
+
+### 1.1.12
+- Introduced dedicated admin menu with QwicPay icon.
+- Merchant Access Portal page with iframe.
+
+### 1.1.8
+- Initial top-level menu and submenus.
+
+### 1.0.0
+- Initial release: settings tab, button placement, uptime check.
+
+---
+
+## External Contributors
+
+Thank you to the following community members for their contributions:
+
+- **@Enrico1109** — WooCommerce inital settings menu
+
 
 ---
 
