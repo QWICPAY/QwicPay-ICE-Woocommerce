@@ -1,9 +1,9 @@
 <?php
 /**
- * Plugin Name: QwicPay Integration for WooCommerce
+ * Plugin Name: QwicPay Checkout
  * Description: Adds a QwicPay instant checkout button to cart/checkout pages, with configurable hook, merchant ID, stage, currency and button style.
- * Version:     1.0.1
- * Author:      Enrico Leigh
+ * Version:     1.2.12
+ * Author:      QwicPay
  * Text Domain: qwicpay
  * 
  * This code is the intellectual property of QwicPay Pty Ltd (Registration No. K2024202050).
@@ -26,7 +26,69 @@ class WC_QwicPay_Integration {
         add_action( 'woocommerce_settings_tabs_qwicpay', [ $this, 'settings_tab' ] );
         add_action( 'woocommerce_update_options_qwicpay', [ $this, 'update_settings' ] );
         add_action( 'init', [ $this, 'register_button_hook' ] ); // Dynamically selected hook based on user input
+        add_action( 'admin_menu', [ $this, 'add_admin_menu' ] );
+        add_action( 'woocommerce_widget_shopping_cart_total', [ $this, 'output_qwicpay_button_half' ], 5 );
+
     }
+
+    /**
+     * Add QwicPay top-level menu and submenus to WP Admin.
+     * @since 1.1.8
+     */
+   public function add_admin_menu() {
+
+        add_menu_page(
+            'QwicPay',
+            'QwicPay',
+            'manage_options',
+            'qwicpay-main',                     
+            '__return_false',                   
+            plugin_dir_url( __FILE__ ) . 'assets/qwicpay-icon.png',
+            56
+        );
+
+        add_submenu_page(
+            'qwicpay-main',
+            'Merchant Access Portal',
+            'Merchant Access Portal',
+            'manage_options',
+            'qwicpay-portal',
+            [ $this, 'render_portal_page' ]
+        );
+
+        add_submenu_page(
+            'qwicpay-main',
+            'Settings',
+            'Settings',
+            'manage_options',
+            'qwicpay-settings',                // ← new slug
+            [ $this, 'render_settings_redirect' ]
+        );
+
+        remove_submenu_page( 'qwicpay-main', 'qwicpay-main' );
+    }
+
+
+
+   /**
+     * Redirects to WooCommerce > Settings > QwicPay tab.
+     * @since 1.1.2
+     */
+    public function render_settings_redirect() {
+        wp_safe_redirect( admin_url( 'admin.php?page=wc-settings&tab=qwicpay' ) );
+        exit;
+    }
+
+    /**
+     * Renders the Merchant Access Portal with iframe.
+     * @since 1.1.2
+     */
+    public function render_portal_page() {
+        echo '<div class="wrap"><h1>Merchant Access Portal</h1>';
+        echo '<iframe src="https://map.qwicpay.com" width="100%" height="800px" style="border: none;"></iframe>';
+        echo '</div>';
+    }
+
 
     /**
      * Add QwicPay tab to WooCommerce Settings.
@@ -41,9 +103,17 @@ class WC_QwicPay_Integration {
      * Output settings fields.
      * @since 1.0.0
      */
-    public function settings_tab() {
-        woocommerce_admin_fields( $this->get_settings() );
-    }
+public function settings_tab() {
+    
+
+    // Show settings fields
+    woocommerce_admin_fields( $this->get_settings() );
+    // Display dynamic "Link Status"
+    $this->display_link_status();
+    // Display Activate/Re-activate Button
+    $this->display_activate_button();
+}
+
 
     /**
      * Save settings fields.
@@ -73,7 +143,6 @@ class WC_QwicPay_Integration {
                     'woocommerce_cart_totals_after_order_total' => 'Cart Totals After Order Total',
                     'woocommerce_proceed_to_checkout'           => 'Proceed to Checkout Button',
                     'woocommerce_review_order_before_submit'    => 'Before Place Order Button',
-                    'woocommerce_after_checkout_form'           => 'After Checkout Form',
                 ],
                 'default'  => 'woocommerce_cart_totals_after_order_total',
             ],
@@ -86,6 +155,7 @@ class WC_QwicPay_Integration {
             ],
             [
                 'name'    => __( 'Stage', 'qwicpay' ),
+                'desc'     => __( 'In Test, no payment are accepted. Use with caution', 'qwicpay' ),
                 'id'      => 'qwicpay_stage',
                 'type'    => 'select',
                 'options' => [
@@ -100,9 +170,6 @@ class WC_QwicPay_Integration {
                 'type'    => 'select',
                 'options' => [
                     'ZAR' => 'ZAR',
-                    'USD' => 'USD',
-                    'EUR' => 'EUR',
-                    'GBP' => 'GBP',
                 ],
                 'default' => 'ZAR',
             ],
@@ -124,7 +191,9 @@ class WC_QwicPay_Integration {
                 'id'   => 'qwicpay_section_end',
             ],
         ];
-    }
+}
+
+
 
     /**
      * Reads the chosen hook from settings and registers our display callback there.
@@ -132,14 +201,32 @@ class WC_QwicPay_Integration {
      */
     public function register_button_hook() {
         $hook = get_option( 'qwicpay_hook_location', 'woocommerce_cart_totals_after_order_total' );
-        add_action( $hook, [ $this, 'output_qwicpay_button' ], 5 );
+        add_action( $hook, [ $this, 'output_qwicpay_button_full' ], 5 );
     }
 
     /**
-     * Renders the QwicPay checkout button.
-     * @since 1.0.0
+     * @since 1.2.2
+     * Full-width button (100%) for normal cart/checkout hooks.
      */
-    public function output_qwicpay_button() {
+    public function output_qwicpay_button_full() {
+        $this->render_qwicpay_button( '100%' );
+    }
+
+    /**
+     * @since 1.2.2
+     * Half-width button (50%) for the mini-cart widget.
+     */
+    public function output_qwicpay_button_half() {
+        $this->render_qwicpay_button( '50%' );
+    }
+
+
+    /**
+     * Shared renderer for the QwicPay button.
+     * @since 1.2.2
+     * @param string $width CSS width (e.g. '100%' or '50%')
+     */
+    private function render_qwicpay_button( $width ) {
         // fetch settings
         $merchant_id   = sanitize_text_field( get_option( 'qwicpay_merchant_id', '' ) );
         $stage         = get_option( 'qwicpay_stage', 'test' );
@@ -184,10 +271,48 @@ class WC_QwicPay_Integration {
             'products'   => $products_json,
         ], 'https://ice.qwicpay.com/app/woo/checkout/' );
 
-        echo '<a href="' . esc_url( $checkout_url ) . '" target="_blank" class="qwicpay-checkout-button">';
-        echo   '<img src="' . $button_url . '" alt="QwicPay Checkout Button">';
-        echo '</a>';
+
+        echo '  <a href="' . esc_url( $checkout_url ) . '" target="_blank" class="qwicpay-checkout-button" style="width:' . esc_attr( $width ) . ';">';
+        echo '    <img src="' . $button_url . '" alt="QwicPay Checkout Button" style="width:100%; height:auto;">';
+        echo '  </a>';
+
     }
+
+
+    
+
+    /**
+     * Display the merchant activation status.
+     * @since 1.1.2
+     */
+    private function display_link_status() {
+        $merchant_id = sanitize_text_field( get_option( 'qwicpay_merchant_id', '' ) );
+
+        $status = 'Not Activated';
+        if ( ! empty( $merchant_id ) ) {
+            $response = wp_remote_get( "https://ice.qwicpay.com/app/woo/status/{$merchant_id}", [ 'timeout' => 5 ] );
+            if ( ! is_wp_error( $response ) && wp_remote_retrieve_response_code( $response ) === 200 ) {
+                $status = '<span style="color: green; font-weight: bold;">Activated</span>';
+            } else {
+                $status = '<span style="color: red; font-weight: bold;">Not Activated</span>';
+            }
+        }
+
+        echo '<h2>QwicPay Link Status</h2>';
+        echo 'Status: ' . $status . '<br><br>';
+    }
+
+    /**
+     * Display the Activate/Re-Activate button.
+     * @since 1.1.2
+     */
+    private function display_activate_button() {
+        $merchant_id = sanitize_text_field( get_option( 'qwicpay_merchant_id', '' ) );
+        $link_url = "https://ice.qwicpay.com/app/woo/link/{$merchant_id}";
+
+        echo '<a class="button button-primary" href="' . esc_url( $link_url ) . '" target="_blank">Activate / Re-Activate</a>';
+    }
+
 }
 
 new WC_QwicPay_Integration();
