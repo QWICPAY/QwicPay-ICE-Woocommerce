@@ -34,6 +34,37 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit; // Exit if accessed directly
 }
 
+define( 'QWICPAY_CHECKOUT_MIN_PHP', '7.4' );
+define( 'QWICPAY_CHECKOUT_MIN_WC', '5.0' );
+
+function qwicpay_checkout_check_requirements() {
+    // Check PHP
+    if ( version_compare( PHP_VERSION, QWICPAY_CHECKOUT_MIN_PHP, '<' ) ) {
+        add_action( 'admin_notices', function() {
+            echo '<div class="notice notice-error"><p>';
+            echo esc_html__( 'QwicPay Checkout requires PHP version 7.4 or higher.', 'qwicpay-checkout' );
+            echo '</p></div>';
+        } );
+        return false;
+    }
+
+    // Check WooCommerce
+    if ( ! class_exists( 'WooCommerce' ) || version_compare( WC_VERSION, QWICPAY_CHECKOUT_MIN_WC, '<' ) ) {
+        add_action( 'admin_notices', function() {
+            echo '<div class="notice notice-error"><p>';
+            echo esc_html__( 'QwicPay Checkout requires WooCommerce 5.0 or higher.', 'qwicpay-checkout' );
+            echo '</p></div>';
+        } );
+        return false;
+    }
+
+    return true;
+}
+
+if ( ! qwicpay_checkout_check_requirements() ) {
+    return;
+}
+
 class QwicPayCheckout_Integration
 {
 

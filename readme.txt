@@ -2,10 +2,12 @@
 Contributors: qwicpay, jbeira, Enrico1109
 Tags: qwicpay, instant checkout, woocommerce, payment, south africa
 Requires at least: 5.0
+Requires PHP: 7.4
 Tested up to: 6.8
-Stable tag: 1.2.12
+Stable tag: 1.2.14
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
+
 
 This integration enables your WooCommerce store to offer QwicPay Instant Checkout and join our ecosystem.
 
