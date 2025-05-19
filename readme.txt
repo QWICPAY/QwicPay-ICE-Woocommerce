@@ -3,6 +3,7 @@ Contributors: qwicpay, jbeira, enrico1109
 Tags: qwicpay, instant checkout, woocommerce, payment, south africa
 Requires at least: 5.0
 Requires PHP: 7.4
+Requires Plugins: woocommerce
 Tested up to: 6.8
 Stable tag: 1.2.15
 License: GPLv2 or later
@@ -43,6 +44,16 @@ The **"Day and name"** structure is a great default and works well with QwicPay.
 **To set these endpoints:**
 1. Go to WooCommerce → Settings → Advanced → Checkout Endpoints.
 2. Ensure `order-pay` and `order-received` slugs are listed.
+
+= Plugin Options =
+| Option         | Description                                      | Default |
+| -------------- | ------------------------------------------------ | ------- |
+| Hook Location  | Where to display the button                      | woocommerce_cart_totals_after_order_total |
+| Merchant ID    | Your QwicPay merchant ID                         | (empty — must be set) |
+| Stage          | Test or Production                               | Test    |
+| Currency       | Checkout currency                                | ZAR     |
+| Button Style   | QwicPay button image                             | Blue round button SVG |
+
 
 == Frequently Asked Questions ==
 
@@ -90,21 +101,7 @@ It makes the following remote requests:
 = 1.2.12 =
 Latest version with width options and button renderer improvements.
 
-== Arbitrary section ==
 
-= Plugin Options =
-| Option         | Description                                      | Default |
-| -------------- | ------------------------------------------------ | ------- |
-| Hook Location  | Where to display the button                      | woocommerce_cart_totals_after_order_total |
-| Merchant ID    | Your QwicPay merchant ID                         | (empty — must be set) |
-| Stage          | Test or Production                               | test    |
-| Currency       | Checkout currency                                | ZAR     |
-| Button Style   | URL of QwicPay button image                      | Blue round button SVG |
-
-== License ==
-
-This code is the property of **QwicPay Pty Ltd**.
-Copying, modifying, or using without permission is prohibited.
 
 == Support ==
 

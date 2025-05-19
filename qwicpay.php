@@ -3,7 +3,7 @@
  * Plugin Name: QwicPay Checkout
  * Plugin URI: https://www.qwicpay.com/
  * Description: Adds a QwicPay instant checkout button to WooCommerce.
- * Version: 1.2.15
+ * Version: 1.2.16
  * Author: QwicPay Pty Ltd
  * License: GPLv2 or later
  * License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -36,7 +36,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 define( 'QWICPAY_CHECKOUT_MIN_PHP', '7.4' );
 
-
+/**
+ * Add QwicPay top-level menu and submenus to WP Admin.
+ * @since 1.2.16
+*/
 function qwicpay_checkout_check_requirements() {
     // Check PHP
     if ( version_compare( PHP_VERSION, QWICPAY_CHECKOUT_MIN_PHP, '<' ) ) {
@@ -49,25 +52,37 @@ function qwicpay_checkout_check_requirements() {
     }
 
     // Check WooCommerce
-    if ( ! class_exists( 'WooCommerce' ) ) {
-        add_action( 'admin_notices', function() {
-            echo '<div class="notice notice-error"><p>';
-            echo esc_html__( 'QwicPay Checkout requires WooCommerce 5.0 or higher.', 'qwicpay-checkout' );
-            echo '</p></div>';
-        } );
-        return false;
+    if ( ! function_exists( 'is_woocommerce_activated' ) ) {
+        function is_woocommerce_activated() {
+            if ( class_exists( 'woocommerce' ) ) { return true; } else { return false; }
+        }
     }
+
+    //checkperamalink
+    if ( get_option( 'permalink_structure' ) === '' ) {
+    add_action( 'admin_notices', function() {
+        echo '<div class="notice notice-warning"><p>';
+        echo esc_html__( 'QwicPay Checkout requires pretty permalinks to be enabled. Please go to Settings → Permalinks and choose any structure other than "Plain".', 'qwicpay-checkout' );
+        echo '</p></div>';
+    } );
+    return false;
+    }
+
+    
+    
+
 
     return true;
 }
 
-if ( ! qwicpay_checkout_check_requirements() ) {
-    return;
-}
+
 
 class QwicPayCheckout_Integration
 {
-
+    /**
+     * Constructor.
+     * @since 1.0.0
+     */
     public function __construct() {
         add_filter( 'woocommerce_settings_tabs_array',   [ $this, 'add_settings_tab' ], 50 );
         add_action( 'woocommerce_settings_tabs_qwicpay', [ $this, 'settings_tab' ] );
@@ -75,7 +90,21 @@ class QwicPayCheckout_Integration
         add_action( 'init', [ $this, 'register_button_hook' ] ); // Dynamically selected hook based on user input
         add_action( 'admin_menu', [ $this, 'add_admin_menu' ] );
         add_action( 'woocommerce_widget_shopping_cart_total', [ $this, 'output_qwicpay_button_half' ], 5 );
+        add_action( 'admin_init', [ $this, 'qwicpay_checkout_check_endpoints' ] );
 
+    }
+
+    function qwicpay_checkout_check_endpoints() {
+    $pay = get_option( 'woocommerce_checkout_pay_endpoint' );
+    $received = get_option( 'woocommerce_checkout_  order_received_endpoint' );
+
+    if ( $pay !== 'order-pay' || $received !== 'order-received' ) {
+        add_action( 'admin_notices', function() {
+            echo '<div class="notice notice-warning"><p>';
+            echo esc_html__( 'QwicPay Checkout requires WooCommerce checkout endpoints to be correctly configured. Please go to WooCommerce → Settings → Advanced and ensure "order-pay" and "order-received" are set.', 'qwicpay-checkout' );
+            echo '</p></div>';
+        } ); 
+    }
     }
 
     /**
@@ -197,7 +226,7 @@ public function settings_tab() {
                 'name' => __( 'Merchant ID', 'qwicpay-checkout' ),
                 'id'   => 'qwicpay_merchant_id',
                 'type' => 'text',
-                'desc' => __( 'Your QwicPay Merchant ID', 'qwicpay-checkout' ),
+                'desc' => __( 'Your QwicPay Merchant ID. Please ensure you click save before trying to activate QwicPay', 'qwicpay-checkout' ),
                 'default' => '',
             ],
             [
@@ -362,4 +391,10 @@ public function settings_tab() {
 
 }
 
-new QwicPayCheckout_Integration();
+add_action( 'plugins_loaded', function () {
+    if ( ! qwicpay_checkout_check_requirements() ) {
+        return;
+    }
+
+    new QwicPayCheckout_Integration();
+}, 11 ); // Delays until after WooCommerce loads
