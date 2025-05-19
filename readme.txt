@@ -1,5 +1,5 @@
 === QwicPay Checkout ===
-Contributors: qwicpay
+Contributors: qwicpay, jbeira, Enrico1109
 Tags: qwicpay, instant checkout, woocommerce, payment, south africa
 Requires at least: 5.0
 Tested up to: 6.8
@@ -46,6 +46,24 @@ The **"Day and name"** structure is a great default and works well with QwicPay.
 
 = Can I change the button style? =
 Yes! Choose from 4 styles hosted by QwicPay.
+
+
+== External Services ==
+
+This plugin connects to QwicPay’s external API services to enable secure instant checkout functionality.
+
+It makes the following remote requests:
+- https://ice.qwicpay.com/isup/{merchant_id} — to check service uptime
+- https://ice.qwicpay.com/app/woo/status/{merchant_id} — to validate merchant setup
+- https://ice.qwicpay.com/app/woo/checkout — customer checkout redirect
+- https://ice.qwicpay.com/app/woo/link/{merchant_id} — activation link
+- https://map.qwicpay.com — embedded iframe in Merchant Access Portal
+
+**Data sent:** Only the merchant ID (set by the admin). No customer or order data is transmitted to QwicPay's servers from the WordPress site.
+
+**Service Provider:** QwicPay Pty Ltd  
+[Privacy Policy](https://qwicpay.com/privacy)  
+[Terms of Use](https://qwicpay.com/tos)
 
 
 

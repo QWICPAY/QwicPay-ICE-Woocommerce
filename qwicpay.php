@@ -34,7 +34,8 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit; // Exit if accessed directly
 }
 
-class WC_QwicPay_Integration {
+class QwicPayCheckout_Integration
+{
 
     public function __construct() {
         add_filter( 'woocommerce_settings_tabs_array',   [ $this, 'add_settings_tab' ], 50 );
@@ -110,7 +111,7 @@ class WC_QwicPay_Integration {
      * @since 1.0.0
      */
     public function add_settings_tab( $tabs ) {
-        $tabs['qwicpay'] = __( 'QwicPay Settings', 'qwicpay' );
+        $tabs['qwicpay'] = __( 'QwicPay Settings', 'qwicpay-checkout' );
         return $tabs;
     }
 
@@ -145,13 +146,13 @@ public function settings_tab() {
     private function get_settings() {
         return [
             [
-                'name' => __( 'QwicPay Settings', 'qwicpay' ),
+                'name' => __( 'QwicPay Settings', 'qwicpay-checkout' ),
                 'type' => 'title',
                 'id'   => 'qwicpay_section_title',
             ],
             [
-                'name'     => __( 'Hook Location', 'qwicpay' ),
-                'desc'     => __( 'Where should the QwicPay button appear?', 'qwicpay' ),
+                'name'     => __( 'Hook Location', 'qwicpay-checkout' ),
+                'desc'     => __( 'Where should the QwicPay button appear?', 'qwicpay-checkout' ),
                 'id'       => 'qwicpay_hook_location',
                 'type'     => 'select',
                 'options'  => [
@@ -162,25 +163,25 @@ public function settings_tab() {
                 'default'  => 'woocommerce_cart_totals_after_order_total',
             ],
             [
-                'name' => __( 'Merchant ID', 'qwicpay' ),
+                'name' => __( 'Merchant ID', 'qwicpay-checkout' ),
                 'id'   => 'qwicpay_merchant_id',
                 'type' => 'text',
-                'desc' => __( 'Your QwicPay Merchant ID', 'qwicpay' ),
+                'desc' => __( 'Your QwicPay Merchant ID', 'qwicpay-checkout' ),
                 'default' => '',
             ],
             [
-                'name'    => __( 'Stage', 'qwicpay' ),
-                'desc'     => __( 'In Test, no payment are accepted. Use with caution', 'qwicpay' ),
+                'name'    => __( 'Stage', 'qwicpay-checkout' ),
+                'desc'     => __( 'In Test, no payment are accepted. Use with caution', 'qwicpay-checkout' ),
                 'id'      => 'qwicpay_stage',
                 'type'    => 'select',
                 'options' => [
-                    'test' => __( 'Test', 'qwicpay' ),
-                    'PROD' => __( 'Production', 'qwicpay' ),
+                    'test' => __( 'Test', 'qwicpay-checkout' ),
+                    'PROD' => __( 'Production', 'qwicpay-checkout' ),
                 ],
                 'default' => 'test',
             ],
             [
-                'name'    => __( 'Currency', 'qwicpay' ),
+                'name'    => __( 'Currency', 'qwicpay-checkout' ),
                 'id'      => 'qwicpay_currency',
                 'type'    => 'select',
                 'options' => [
@@ -189,17 +190,17 @@ public function settings_tab() {
                 'default' => 'ZAR',
             ],
             [
-                'name'    => __( 'Button Style', 'qwicpay' ),
-                'desc'    => __( 'Select which QwicPay button image to use', 'qwicpay' ),
+                'name'    => __( 'Button Style', 'qwicpay-checkout' ),
+                'desc'    => __( 'Select which QwicPay button image to use', 'qwicpay-checkout' ),
                 'id'      => 'qwicpay_button_style',
                 'type'    => 'select',
                 'options' => [
-                    'https://cdn.qwicpay.com/Buttons/QwicPay+Button+BlueBGWhiteText.svg'                    => __( 'Blue Round', 'qwicpay' ),
-                    'https://cdn.qwicpay.com/Buttons/QwicPay+Button+BlueBGWhiteText+(Squared).svg'           => __( 'Blue Square', 'qwicpay' ),
-                    'https://cdn.qwicpay.com/Buttons/QwicPay+Button+WhiteBGBlueText.svg'                    => __( 'White Round', 'qwicpay' ),
-                    'https://cdn.qwicpay.com/Buttons/QwicPay+Button+WhiteBGBlueText+(Squared).svg'           => __( 'White Square', 'qwicpay' ),
+                    plugins_url( 'assets/buttons/QwicPay+Button+BlueBGWhiteText.svg', __FILE__ ) => __( 'Blue Round', 'qwicpay-checkout' ),
+                    plugins_url( 'assets/buttons/QwicPay+Button+BlueBGWhiteText+(Squared).svg', __FILE__ ) => __( 'Blue Square', 'qwicpay-checkout' ),
+                    plugins_url( 'assets/buttons/QwicPay+Button+WhiteBGBlueText.svg', __FILE__ ) => __( 'White Round', 'qwicpay-checkout' ),
+                    plugins_url( 'assets/buttons/QwicPay+Button+WhiteBGBlueText+(Squared).svg', __FILE__ ) => __( 'White Square', 'qwicpay-checkout' ),
                 ],
-                'default' => 'https://cdn.qwicpay.com/Buttons/QwicPay+Button+BlueBGWhiteText.svg',
+                'default' => plugins_url( 'assets/buttons/QwicPay+Button+BlueBGWhiteText.svg', __FILE__ ),
             ],
             [
                 'type' => 'sectionend',
@@ -330,4 +331,4 @@ public function settings_tab() {
 
 }
 
-new WC_QwicPay_Integration();
+new QwicPayCheckout_Integration();
