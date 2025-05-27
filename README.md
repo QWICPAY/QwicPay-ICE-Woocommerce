@@ -20,16 +20,16 @@ This integration enables your WooCommerce store to offer **QwicPay Instant Check
 
 ## Installation
 
-1. Download the ZIP and upload via **Plugins → Add New → Upload Plugin**.  
-2. Activate the plugin in **Plugins → Installed Plugins**.  
-3. Go to **QwicPay → Settings** to enter your Merchant ID and other options.  
-4. Activate the plugin and insure staus becomes `Active`
+1. Download the ZIP and upload via **Plugins → Add New → Upload Plugin**.
+2. Activate the plugin in **Plugins → Installed Plugins**.
+3. Go to **QwicPay → Settings** to enter your Merchant ID and other options. **Save**
+4. Activate the plugin and ensure status becomes `Active`
 
 ---
 
 ## Custom Hook: `qwicpay_cart_hook`
 
-The QwicPay Checkout plugin defines a custom action hook named `qwicpay_cart_hook` to give theme or plugin developers more flexibility over where the QwicPay button is rendered on the WooCommerce cart page.
+The QwicPay Checkout plugin defines a custom action hook named `qwicpay_cart_hook` to give theme or plugin developers more flexibility if the over where the QwicPay button is rendered on the WooCommerce cart page if the provided hooks don't match the correct position.
 
 ### Purpose
 
@@ -48,28 +48,26 @@ In your theme’s `cart.php` template or a custom plugin, place the following li
 do_action('qwicpay_cart_hook');
 ```
 
-## **Permalinks:** 
+## **Permalinks:**
 
-  WordPress permalinks must be set to a human-readable format.  
-  Go to `Settings > Permalinks` and choose any option **other than "Plain"**.  
-  The **"Day and name"** structure is a great default and works well with QwicPay.
-
+WordPress permalinks must be set to a human-readable format.  
+ Go to `Settings > Permalinks` and choose any option **other than "Plain"**.  
+ The **"Day and name"** structure is a great default and works well with QwicPay.
 
 ## 🔗 Checkout Endpoints
 
 The following endpoints are appended to your store's page URLs to handle specific actions during the QwicPay Instant Checkout process. These endpoints must be unique and properly configured in WooCommerce:
 
-| Endpoint Purpose   | Endpoint Slug   |
-|--------------------|-----------------|
-| Pay                | `order-pay`     |
-| Order Received     | `order-received`|
+| Endpoint Purpose | Endpoint Slug    |
+| ---------------- | ---------------- |
+| Pay              | `order-pay`      |
+| Order Received   | `order-received` |
 
 > ⚙️ **To set these endpoints in WooCommerce:**
 >
 > 1. Go to your WordPress Admin Dashboard.
 > 2. Navigate to **WooCommerce → Settings → Advanced → Checkout Endpoints**.
 > 3. Ensure the slugs `order-pay` and `order-received` are listed under the appropriate sections.
-
 
 ## Usage
 
@@ -95,7 +93,7 @@ Choose from 4 button styles hosted by QwicPay:
 `https://cdn.qwicpay.com/Buttons/QwicPay+Button+BlueBGWhiteText.svg`
 
 **2. Square Blue**  
-![Square Blue](https://cdn.qwicpay.com/Buttons/QwicPay+Button+BlueBGWhiteText+(Squared).svg)  
+![Square Blue](<https://cdn.qwicpay.com/Buttons/QwicPay+Button+BlueBGWhiteText+(Squared).svg>)  
 `https://cdn.qwicpay.com/Buttons/QwicPay+Button+BlueBGWhiteText+(Squared).svg`
 
 **3. Round White**  
@@ -103,21 +101,20 @@ Choose from 4 button styles hosted by QwicPay:
 `https://cdn.qwicpay.com/Buttons/QwicPay+Button+WhiteBGBlueText.svg`
 
 **4. Square White**  
-![Square White](https://cdn.qwicpay.com/Buttons/QwicPay+Button+WhiteBGBlueText+(Squared).svg)  
+![Square White](<https://cdn.qwicpay.com/Buttons/QwicPay+Button+WhiteBGBlueText+(Squared).svg>)  
 `https://cdn.qwicpay.com/Buttons/QwicPay+Button+WhiteBGBlueText+(Squared).svg`
----
 
+---
 
 ## Plugin Options
 
-| Option                | Description                                           | Default                                    |
-| --------------------- | ----------------------------------------------------- | ------------------------------------------ |
-| Hook Location         | Where to display the button on cart/checkout pages    | `woocommerce_cart_totals_after_order_total` |
-| Merchant ID           | Your QwicPay merchant identifier                      | *(empty — must be set)*                    |
-| Stage                 | Test or Production environment                        | `test`                                     |
-| Currency              | Checkout currency                                     | `ZAR`                                      |
-| Button Style          | URL of the QwicPay button image                       | Blue round button SVG                      |
-
+| Option        | Description                                        | Default                                     |
+| ------------- | -------------------------------------------------- | ------------------------------------------- |
+| Hook Location | Where to display the button on cart/checkout pages | `woocommerce_cart_totals_after_order_total` |
+| Merchant ID   | Your QwicPay merchant identifier                   | _(empty — must be set)_                     |
+| Stage         | Test or Production environment                     | `test`                                      |
+| Currency      | Checkout currency                                  | `ZAR`                                       |
+| Button Style  | URL of the QwicPay button image                    | Blue round button SVG                       |
 
 ## 📄 License & Legal
 
@@ -138,17 +135,21 @@ If you have any questions or require assistance with integration:
 ## Changelog
 
 ### 1.2.12
+
 - Added full/half-width rendering via separate callbacks.
 - Refactored shared renderer for button HTML.
 
 ### 1.1.12
+
 - Introduced dedicated admin menu with QwicPay icon.
 - Merchant Access Portal page with iframe.
 
 ### 1.1.8
+
 - Initial top-level menu and submenus.
 
 ### 1.0.0
+
 - Initial release: settings tab, button placement, uptime check.
 
 ---
@@ -158,7 +159,6 @@ If you have any questions or require assistance with integration:
 Thank you to the following community members for their contributions:
 
 - **@Enrico1109** — WooCommerce inital settings menu
-
 
 ---
 
