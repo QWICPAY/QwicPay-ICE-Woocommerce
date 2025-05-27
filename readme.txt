@@ -55,6 +55,29 @@ The **"Day and name"** structure is a great default and works well with QwicPay.
 | Button Style   | QwicPay button image                             | Blue round button SVG |
 
 
+== Custom Hook: qwicpay_cart_hook ==
+
+The QwicPay Checkout plugin includes an optional custom action hook for advanced layout control:
+
+=== Hook Name ===
+
+qwicpay_cart_hook
+
+=== Description ===
+
+This hook allows you to control exactly where the QwicPay button appears on the cart page by inserting it manually in your theme or plugin.
+
+=== How to Use ===
+
+1. Enable the hook:
+   - Navigate to WooCommerce → Settings → QwicPay Settings.
+   - Under "Hook Location", choose "QwicPay Custom hook".
+
+2. Insert this in your cart template:
+   do_action('qwicpay_cart_hook');
+
+QwicPay will automatically render the button here when this option is enabled.
+
 == Frequently Asked Questions ==
 
 = Can I change the button style? =

@@ -1,0 +1,16 @@
+{
+  "name": "qwicpay-checkout",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+  "build": "cd blocks/qwicpay-checkout && npm install && npm run build"
+},
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "devDependencies": {
+    "@wordpress/scripts": "^30.17.0"
+  }
+}

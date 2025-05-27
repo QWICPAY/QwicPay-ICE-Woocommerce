@@ -27,7 +27,26 @@ This integration enables your WooCommerce store to offer **QwicPay Instant Check
 
 ---
 
+## Custom Hook: `qwicpay_cart_hook`
 
+The QwicPay Checkout plugin defines a custom action hook named `qwicpay_cart_hook` to give theme or plugin developers more flexibility over where the QwicPay button is rendered on the WooCommerce cart page.
+
+### Purpose
+
+This hook is useful when the default WooCommerce hooks like `woocommerce_cart_totals_after_order_total` or `woocommerce_proceed_to_checkout` do not fit your theme layout or design requirements.
+
+### How to Enable
+
+1. Go to **WooCommerce → Settings → QwicPay Settings**.
+2. Under **Hook Location**, select `QwicPay Custom hook`.
+
+### How to Use
+
+In your theme’s `cart.php` template or a custom plugin, place the following line where you want the button to appear:
+
+```php
+do_action('qwicpay_cart_hook');
+```
 
 ## **Permalinks:** 
 
