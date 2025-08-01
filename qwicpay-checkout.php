@@ -3,7 +3,7 @@
  * Plugin Name: QwicPay Checkout
  * Plugin URI: https://www.qwicpay.com/
  * Description: Adds a QwicPay instant checkout button to WooCommerce.
- * Version: 1.2.20
+ * Version: 1.3
  * Author: QwicPay Pty Ltd
  * License: GPLv2 or later
  * License URI: https://www.gnu.org/licenses/gpl-2.0.html
