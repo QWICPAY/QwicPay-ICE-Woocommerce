@@ -251,12 +251,9 @@ class QwicPayCheckout_Integration
                 'id'      => 'qwicpay_button_style',
                 'type'    => 'select',
                 'options' => [
-                    plugins_url( 'assets/buttons/QwicPay+Button+BlueBGWhiteText.svg', __FILE__ ) => __( 'Blue Round', 'qwicpay-checkout' ),
-                    plugins_url( 'assets/buttons/QwicPay+Button+BlueBGWhiteText+(Squared).svg', __FILE__ ) => __( 'Blue Square', 'qwicpay-checkout' ),
-                    plugins_url( 'assets/buttons/QwicPay+Button+WhiteBGBlueText.svg', __FILE__ ) => __( 'White Round', 'qwicpay-checkout' ),
-                    plugins_url( 'assets/buttons/QwicPay+Button+WhiteBGBlueText+(Squared).svg', __FILE__ ) => __( 'White Square', 'qwicpay-checkout' ),
-                ],
-                'default' => plugins_url( 'assets/buttons/QwicPay+Button+BlueBGWhiteText.svg', __FILE__ ),
+                    plugins_url( 'assets/buttons/QwicPayButton.webp', __FILE__ ) => __( 'Modern', 'qwicpay-checkout' ),
+                             ],
+                'default' => plugins_url( 'assets/buttons/QwicPayButton.webp', __FILE__ ),
             ],
             [
                 'type' => 'sectionend',
