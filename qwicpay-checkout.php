@@ -3,7 +3,7 @@
  * Plugin Name: QwicPay Checkout
  * Plugin URI: https://www.qwicpay.com/
  * Description: Adds a QwicPay instant checkout button to WooCommerce.
- * Version: 1.3
+ * Version: 1.4
  * Author: QwicPay Pty Ltd
  * License: GPLv2 or later
  * License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -310,7 +310,7 @@ class QwicPayCheckout_Integration
         
         if (!$this->should_display_button()) return;
         // check QwicPay uptime
-        $response = wp_remote_get( "https://ice.qwicpay.com/isup/{$merchant_id}", [ 'timeout' => 5 ] );
+        $response = wp_remote_get( "https://ice.qwicpay.com/isup/{$merchant_id}", [ 'timeout' => 50 ] );
         if ( is_wp_error( $response ) || wp_remote_retrieve_response_code( $response ) !== 200 ) {
             return;
         }
@@ -362,7 +362,7 @@ class QwicPayCheckout_Integration
 
         $status = 'Not Activated';
         if ( ! empty( $merchant_id ) ) {
-            $response = wp_remote_get( "https://ice.qwicpay.com/app/woo/status/{$merchant_id}", [ 'timeout' => 5 ] );
+            $response = wp_remote_get( "https://ice.qwicpay.com/app/woo/status/{$merchant_id}", [ 'timeout' => 50 ] );
             if ( ! is_wp_error( $response ) && wp_remote_retrieve_response_code( $response ) === 200 ) {
                 $status = '<span style="color: green; font-weight: bold;">Activated</span>';
             } else {
